@@ -90,6 +90,27 @@ public class Main {
         model.put("science", "E=mc^2: " + energy + " = "  + m.toString());
         return "hello";
     }
+    
+    @RequestMapping("/addRoom")
+    String addRoom(Map<String, Object> model) {
+        model.put("rooms","Room1<br>Room2");
+        return "addRoom";
+    }
+    
+    @RequestMapping("/editRoom")
+    String editRoom(Map<String, Object> model) {
+        return "editRoom";
+    }
+    
+    @RequestMapping("/removeRoom")
+    String removeRoom(Map<String, Object> model) {
+        return "main";
+    }
+    
+    @RequestMapping("/main")
+    String main(Map<String, Object> model) {
+        return "main";
+    }
 
   @Bean
   public DataSource dataSource() throws SQLException {
