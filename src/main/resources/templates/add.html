@@ -6,7 +6,13 @@
   <div class="container">
     <p th:text="${rooms}"/>
   </div>
-name : <input type = "text">
+  <form action= "addRoom" method=post>   
+		name : <input name ="name" type = "text">
+		<br>
+		size : <input name= "size" type = "text">
+		<br>
+		<input type = "submit">
+	</form> 
 
 </body>
 </html>

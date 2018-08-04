@@ -1,21 +1,7 @@
-/*
- * Copyright 2002-2014 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package com.example;
 
+//import com.example.repo.roomRepo;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -33,15 +20,23 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.*;
+import javax.inject.Inject;
 
 import static javax.measure.unit.SI.KILOGRAM;
 import javax.measure.quantity.Mass;
+import javax.servlet.http.HttpServletRequest;
+
 import org.jscience.physics.model.RelativisticModel;
 import org.jscience.physics.amount.Amount;
 
 @Controller
 @SpringBootApplication
 public class Main {
+	private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger( Main.class.getName() );
+	 @Inject
+	private RoomService service;
+	//RoomService RoomService = new RoomServiceImpl();
 
   @Value("${spring.datasource.url}")
   private String dbUrl;
@@ -91,26 +86,46 @@ public class Main {
         return "hello";
     }
     
-    @RequestMapping("/addRoom")
-    String addRoom(Map<String, Object> model) {
+    @RequestMapping("/add")
+    String add(Map<String, Object> model) {
+    	System.err.println("Hello, logs1!");
         model.put("rooms","Room1<br>Room2");
-        return "addRoom";
+        return "add";
     }
     
-    @RequestMapping("/editRoom")
-    String editRoom(Map<String, Object> model) {
-        return "editRoom";
-    }
-    
-    @RequestMapping("/removeRoom")
-    String removeRoom(Map<String, Object> model) {
-        return "main";
+    @RequestMapping("/remove")
+    String remove(Map<String, Object> model) {
+            model.put("rooms2","Room3<br>Room4");
+            return "remove";
     }
     
     @RequestMapping("/main")
     String main(Map<String, Object> model) {
         return "main";
     }
+    
+    @RequestMapping("/edit")
+    String edit(Map<String, Object> model) {    
+    	model.put("rooms","301");
+         return "edit";
+    }
+    
+    @RequestMapping("/addRoom")
+    @ResponseBody String addRoom(HttpServletRequest request) throws Exception { 
+    	logger.info("test");
+    	System.err.println("Hello, logs4!");
+    	System.out.println(request.getParameterMap());
+    	for (Map.Entry<String, String[]> entry : request.getParameterMap().entrySet())
+    	{
+    	    System.out.println(entry.getKey() + "/" + entry.getValue());
+    	}
+    	System.out.println(request.getParameter("name"));
+    	System.out.println(request.getParameter("size"));
+    	service.addRoom(request);
+         return "add";
+    }
+    
+    
 
   @Bean
   public DataSource dataSource() throws SQLException {
