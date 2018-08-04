@@ -34,6 +34,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Map;
 
+import static javax.measure.unit.SI.KILOGRAM;
+import javax.measure.quantity.Mass;
+import org.jscience.physics.model.RelativisticModel;
+import org.jscience.physics.amount.Amount;
+
 @Controller
 @SpringBootApplication
 public class Main {
@@ -73,6 +78,18 @@ public class Main {
       return "error";
     }
   }
+    
+    @RequestMapping("/hello")
+    String hello(Map<String, Object> model) {
+        RelativisticModel.select();
+        String energy = System.getenv().get("ENERGY");
+        if (energy == null) {
+           energy = "12 GeV";
+        }
+        Amount<Mass> m = Amount.valueOf(energy).to(KILOGRAM);
+        model.put("science", "E=mc^2: " + energy + " = "  + m.toString());
+        return "hello";
+    }
 
   @Bean
   public DataSource dataSource() throws SQLException {
