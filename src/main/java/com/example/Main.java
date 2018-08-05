@@ -36,7 +36,6 @@ public class Main {
 	private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger( Main.class.getName() );
 	 @Inject
 	private RoomService service;
-	//RoomService RoomService = new RoomServiceImpl();
 
   @Value("${spring.datasource.url}")
   private String dbUrl;
@@ -73,29 +72,21 @@ public class Main {
       return "error";
     }
   }
-    
-    @RequestMapping("/hello")
-    String hello(Map<String, Object> model) {
-        RelativisticModel.select();
-        String energy = System.getenv().get("ENERGY");
-        if (energy == null) {
-           energy = "12 GeV";
-        }
-        Amount<Mass> m = Amount.valueOf(energy).to(KILOGRAM);
-        model.put("science", "E=mc^2: " + energy + " = "  + m.toString());
-        return "hello";
-    }
-    
+       
     @RequestMapping("/add")
-    String add(Map<String, Object> model) {
-    	System.err.println("Hello, logs1!");
-        model.put("rooms","Room1<br>Room2");
+    String add(Map<String, Object> model) {      
         return "add";
     }
     
     @RequestMapping("/remove")
     String remove(Map<String, Object> model) {
-            model.put("rooms2","Room3<br>Room4");
+    	List<Room> rooms = service.findAllRooms();
+    	System.err.println("Olen edelleen elossa!");
+    	String modelString = "";
+    	for(Room roomRow : rooms) {
+    		modelString = modelString + roomRow.getName() + " : " + roomRow.getSize() + "<br>";
+    	}
+            model.put("rooms", modelString);
             return "remove";
     }
     
@@ -111,7 +102,7 @@ public class Main {
     }
     
     @RequestMapping("/addRoom")
-    @ResponseBody String addRoom(HttpServletRequest request) throws Exception { 
+     String addRoom(HttpServletRequest request, Map<String, Object> model) throws Exception { 
     	logger.info("test");
     	System.err.println("Hello, logs4!");
     	System.out.println(request.getParameterMap());
@@ -122,6 +113,7 @@ public class Main {
     	System.out.println(request.getParameter("name"));
     	System.out.println(request.getParameter("size"));
     	service.addRoom(request);
+    	model.put("rooms","Room added successfully!");
          return "add";
     }
     

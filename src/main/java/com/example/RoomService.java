@@ -1,9 +1,12 @@
 package com.example;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 public interface RoomService {
 
-	public void addRoom(HttpServletRequest request); 
+	void addRoom(HttpServletRequest request); 
+	List<Room> findAllRooms();
 	
 }
