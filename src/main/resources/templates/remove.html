@@ -1,13 +1,19 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'removeRoom')}">
+<html xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{fragments/layout :: layout (~{::body},'removeRoom')}">
 
 <body>
-<h1>Remove rooms</h1>
-  <div class="container">
-    <p th:text="${rooms}"/>
-  </div>
-  
-Remove Room : <input type = "text">
+	<h1>Remove rooms</h1>
+	<div class="container">
+		<select th:field="*{id}">
+			<option value="">--</option>
+			<option th:each="room : ${rooms}"
+				th:value="${room.id}" th:utext="${room.name}" />
+		</select>
+	</div>
+
+	Remove Room :
+	<input type="text">
 
 </body>
 </html>

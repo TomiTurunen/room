@@ -86,7 +86,8 @@ public class Main {
     	for(Room roomRow : rooms) {
     		modelString = modelString + roomRow.getName() + " : " + roomRow.getSize() + "<br>";
     	}
-            model.put("rooms", modelString);
+           // model.put("rooms", modelString);
+    	model.put("rooms", rooms);
             return "remove";
     }
     

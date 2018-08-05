@@ -104,9 +104,7 @@ public class RoomRepositoryImpl implements RoomRepository {
 		MongoCursor<Document> cursor = rooms.find().iterator();
 		try {
 			while (cursor.hasNext()) {
-				System.out.println("-------------------------------------------------------");
 				Room room = new Gson().fromJson(cursor.next().toJson(), Room.class);
-				System.out.println("-------------------------------------------------------");
 				System.out.println("NIMI " + room.getName());
 				roomList.add(room);
 				System.out.println("Here I am2");
