@@ -10,8 +10,12 @@ import com.mongodb.client.MongoCollection;
 
 import org.bson.Document;
 import java.util.Arrays;
-import com.mongodb.Block;
 
+import com.google.gson.Gson;
+import com.mongodb.BasicDBObject;
+import com.mongodb.Block;
+import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
 import com.mongodb.client.MongoCursor;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +29,8 @@ import static com.mongodb.client.model.Filters.*;
 import com.mongodb.client.result.DeleteResult;
 import static com.mongodb.client.model.Updates.*;
 import com.mongodb.client.result.UpdateResult;
+import com.mongodb.util.JSON;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Iterator;
@@ -67,11 +73,24 @@ public class RoomRepositoryImpl implements RoomRepository {
         MongoClientURI uri  = new MongoClientURI("mongodb://heroku_vkcpnxnn:2emfcpp2i8r4ulv8fd1mdpdlqu@ds255715.mlab.com:55715/heroku_vkcpnxnn"); 
         MongoClient client = new MongoClient(uri);
         MongoDatabase db = client.getDatabase(uri.getDatabase());
+       /* Gson gson = new Gson();
+        String json = gson.toJson(room);    
+        BasicDBObject basicDBObject = new BasicDBObject("Name", json );          
+        MongoCollection dbCollection =  db.getCollection("rooms");        
+        dbCollection.insertOne(basicDBObject);
+        
+        DBObject dbObject = (DBObject)JSON.parse(json);
+		
+        dbCollection.insertOne(dbObject);*/
+        
+        
         //db.getCollection("rooms").insertOne((Document)room);
+       // DBCollection employeeCollection = (DBCollection) db.getCollection("rooms");
+       // employeeCollection.save((DBObject) room);
         System.out.println(db.getCollection("rooms"));
     	MongoCollection<Document> rooms = db.getCollection("rooms");
-    	Document doc = new Document("name","001")
-    			.append("size", "2");
+    	Document doc = new Document("name",room.getName())
+    			.append("size", room.getSize());
     	rooms.insertOne(doc);
     	System.out.println("Here I am2");
     	 client.close();   	
