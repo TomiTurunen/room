@@ -9,12 +9,13 @@ $(function() {
 						console.log(roomId);
 						$("#roomDetails")
 								.empty()
-								.append(
-										'Name: '
-												+ roomName
-												+ ' <br> Size: '
-												+ roomSize
+								.append('<form action="updateRoom" method=post>'
+										+ 'Name: <input name="name" type="text" value='+ roomName + '>'
+												+ '<br> Size: <input name="size" type="text" value='+ roomSize + '>'
 												+ ' <br> Reservion: No reservion <br>'
+												+ '	<input value ="'+ roomId + '"name ="updateRoomId" type = "hidden">'
+												+ '	<input type = "submit" value="Update room information">'
+												+ '</form>'
 												+ ' <form action= "removeRoom" method=post>'
 												+ '	<input value ='
 												+ roomId

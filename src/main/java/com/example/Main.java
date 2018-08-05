@@ -120,6 +120,16 @@ public class Main {
 		model.put("rooms", rooms);
 		return "remove";
 	}
+	
+	@RequestMapping("/updateRoom")
+	String updateRoom(HttpServletRequest request, Map<String, Object> model) throws Exception {
+		service.updateRoom(request);
+		System.out.println("ID!!:" + request.getParameter("roomId"));
+		model.put("notification", "Room information updated successfully!");
+		List<Room> rooms = service.findAllRooms();
+		model.put("rooms", rooms);
+		return "remove";
+	}
 
 	@Bean
 	public DataSource dataSource() throws SQLException {

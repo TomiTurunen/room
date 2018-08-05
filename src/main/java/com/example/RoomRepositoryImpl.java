@@ -9,6 +9,7 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.MongoCollection;
 
 import org.bson.Document;
+import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 import java.util.Arrays;
@@ -69,20 +70,6 @@ public class RoomRepositoryImpl implements RoomRepository {
 				"mongodb://heroku_vkcpnxnn:2emfcpp2i8r4ulv8fd1mdpdlqu@ds255715.mlab.com:55715/heroku_vkcpnxnn");
 		MongoClient client = new MongoClient(uri);
 		MongoDatabase db = client.getDatabase(uri.getDatabase());
-		/*
-		 * Gson gson = new Gson(); String json = gson.toJson(room); BasicDBObject
-		 * basicDBObject = new BasicDBObject("Name", json ); MongoCollection
-		 * dbCollection = db.getCollection("rooms");
-		 * dbCollection.insertOne(basicDBObject);
-		 * 
-		 * DBObject dbObject = (DBObject)JSON.parse(json);
-		 * 
-		 * dbCollection.insertOne(dbObject);
-		 */
-
-		// db.getCollection("rooms").insertOne((Document)room);
-		// DBCollection employeeCollection = (DBCollection) db.getCollection("rooms");
-		// employeeCollection.save((DBObject) room);
 		System.out.println(db.getCollection("rooms"));
 		MongoCollection<Document> rooms = db.getCollection("rooms");
 		Document doc = new Document("name", room.getName()).append("size", room.getSize());
@@ -150,10 +137,17 @@ public class RoomRepositoryImpl implements RoomRepository {
 				"mongodb://heroku_vkcpnxnn:2emfcpp2i8r4ulv8fd1mdpdlqu@ds255715.mlab.com:55715/heroku_vkcpnxnn");
 		MongoClient client = new MongoClient(uri);
 		MongoDatabase db = client.getDatabase(uri.getDatabase());
-		MongoCollection<Document> rooms = db.getCollection("rooms");		
-		//TODO updating
-		
-		
+		MongoCollection<Document> rooms = db.getCollection("rooms");
+		//Document doc = new Document("name", room.getName()).append("size", room.getSize());
+		Bson filter = new Document("_id", new ObjectId(room.getId()));
+		Bson newValue = new Document("name", room.getName()).append("size", room.getSize());
+		Bson updateOperationDocument = new Document("$set", newValue);		
+		rooms.updateOne(filter, updateOperationDocument);
+		//TODO ei sitten lopullisessa versiossa odellakaan näin:
+		//Keeo mm. voi paivitella suoraan objekteja
+		//newValue = new Document("size", room.getSize());
+		//updateOperationDocument = new Document("$set", newValue);		
+		//rooms.updateOne(filter, updateOperationDocument);		
 		client.close();
 		
 	}

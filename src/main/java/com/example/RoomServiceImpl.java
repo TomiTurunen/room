@@ -40,7 +40,8 @@ public class RoomServiceImpl implements RoomService {
 	
 	public void updateRoom(HttpServletRequest request) {
 		Room room = new Room();
-		room.setId(request.getParameter("id"));
+		room.setId(request.getParameter("updateRoomId"));
+		System.out.println("updateRoomId"+request.getParameter("updateRoomId"));
 		room.setName(request.getParameter("name"));
 		room.setSize(request.getParameter("size"));
 		repository.updateRoom(room);
