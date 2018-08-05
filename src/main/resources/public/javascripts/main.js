@@ -23,4 +23,24 @@ $(function() {
 												+ '	<input type = "submit" value="Remove room">'
 												+ '		</form> ')
 					});
+	$("#emptyRoomSelect")
+		.change(
+			function() {
+				var selectedRoom = $('#emptyRoomSelect').find(":selected");
+				var roomId = selectedRoom.attr("data-id");
+				var roomName = selectedRoom.text();
+				var roomSize = selectedRoom.attr("data-size");
+				console.log(roomId);
+				$("#roomDetails")
+						.empty()
+						.append('<form action="reserveRoom" method=post>'
+								+ 'Name: '+ roomName
+										+ '<br> Size: ' + roomSize
+										+ ' <br> Reservion: No reservion <br>'
+										+ '	<input name ="reserverName" type = "text"><br>'
+										+ 'Reserver Name: '
+										+ '	<input value ="'+ roomId + '"name ="updateRoomId" type = "hidden">'
+										+ '	<input type = "submit" value="Reserve Room">'
+										+ '</form> ')
+			});
 });

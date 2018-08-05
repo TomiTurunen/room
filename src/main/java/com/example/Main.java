@@ -85,15 +85,12 @@ public class Main {
 		return "configure";
 	}
 
-	@RequestMapping("/main")
-	String main(Map<String, Object> model) {
-		return "main";
-	}
-
-	@RequestMapping("/edit")
+	@RequestMapping("/addReserve")
 	String edit(Map<String, Object> model) {
-		model.put("rooms", "301");
-		return "edit";
+		//TODO tähän tulee löydä vapaat huoneet
+		List<Room> rooms = service.findAllRooms();
+		model.put("rooms", rooms);
+		return "addReserve";
 	}
 
 	@RequestMapping("/addRoom")
@@ -126,6 +123,17 @@ public class Main {
 		service.updateRoom(request);
 		System.out.println("ID!!:" + request.getParameter("roomId"));
 		model.put("notification", "Room information updated successfully!");
+		List<Room> rooms = service.findAllRooms();
+		model.put("rooms", rooms);
+		return "configure";
+	}
+	
+	@RequestMapping("/reserveRoom")
+	String reserveRoom(HttpServletRequest request, Map<String, Object> model) throws Exception {
+		service.reserveRoom(request);
+		System.out.println("ID!!:" + request.getParameter("roomId"));
+		//Toteuta osa, etta näkee selkeästi kuka varannut
+		model.put("notification", "Room reserved successfully!");
 		List<Room> rooms = service.findAllRooms();
 		model.put("rooms", rooms);
 		return "configure";

@@ -10,6 +10,8 @@ public interface RoomService {
 	List<Room> findAllRooms();
 	void removeRoom(HttpServletRequest request);
 	void updateRoom(HttpServletRequest request); 
+	void reserveRoom(HttpServletRequest request);
+	void removeReservation(HttpServletRequest request); 
 	
 	
 }

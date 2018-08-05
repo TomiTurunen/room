@@ -1,19 +1,17 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	th:replace="~{fragments/layout :: layout (~{::body},'configure')}">
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'addRoom')}">
+
 <body>
-	<h1>Configure rooms</h1>
+	<h1>Reserve rooms</h1>
 	  <div class="container">
     	<p th:text="${notification}"/>
   		</div>
 	Room:
-	<div class="container">
-		<select id="roomSelect">
+		<select id="emptyRoomSelect">
 			<option value="">Select Room</option>
 			<option th:each="room : ${rooms}"
 				th:data-id="${room.id}" th:data-size="${room.size}" th:utext="${room.name}" />
 		</select>
-	</div>
 
 	<span id ="roomDetails"></span>
 

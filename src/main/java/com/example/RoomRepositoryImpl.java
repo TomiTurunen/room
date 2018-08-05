@@ -55,6 +55,9 @@ import org.springframework.data.mongodb.core.query.Update;
 
 @Repository("RoomRepository")
 public class RoomRepositoryImpl implements RoomRepository {
+	
+	MongoClientURI uri = new MongoClientURI(
+			"mongodb://heroku_vkcpnxnn:2emfcpp2i8r4ulv8fd1mdpdlqu@ds255715.mlab.com:55715/heroku_vkcpnxnn");
 
 	@Autowired
 	MongoTemplate template;
@@ -64,27 +67,17 @@ public class RoomRepositoryImpl implements RoomRepository {
 
 	@Override
 	public void addRoom(Room room) {
-		System.out.println("Here I am");
-		// TODO mieti fiksumpi tapa
-		MongoClientURI uri = new MongoClientURI(
-				"mongodb://heroku_vkcpnxnn:2emfcpp2i8r4ulv8fd1mdpdlqu@ds255715.mlab.com:55715/heroku_vkcpnxnn");
 		MongoClient client = new MongoClient(uri);
 		MongoDatabase db = client.getDatabase(uri.getDatabase());
 		System.out.println(db.getCollection("rooms"));
 		MongoCollection<Document> rooms = db.getCollection("rooms");
 		Document doc = new Document("name", room.getName()).append("size", room.getSize());
 		rooms.insertOne(doc);
-		System.out.println("Here I am2");
 		client.close();
-		System.out.println("Here I am3");
 	}
 
 	@Override
 	public List<Room> findAllRooms() {
-		System.out.println("Here I am");
-		// TODO mieti fiksumpi tapa
-		MongoClientURI uri = new MongoClientURI(
-				"mongodb://heroku_vkcpnxnn:2emfcpp2i8r4ulv8fd1mdpdlqu@ds255715.mlab.com:55715/heroku_vkcpnxnn");
 		MongoClient client = new MongoClient(uri);
 		MongoDatabase db = client.getDatabase(uri.getDatabase());
 		MongoCollection<Document> rooms = db.getCollection("rooms");
@@ -114,14 +107,12 @@ public class RoomRepositoryImpl implements RoomRepository {
 			cursor.close();
 			System.out.println("Here I am3");
 		}
-		System.out.println("Here I am4");
+		client.close();
 		return roomList;
 	}
 	
 	@Override
 	public void removeRoom(String id) {		
-		MongoClientURI uri = new MongoClientURI(
-				"mongodb://heroku_vkcpnxnn:2emfcpp2i8r4ulv8fd1mdpdlqu@ds255715.mlab.com:55715/heroku_vkcpnxnn");
 		MongoClient client = new MongoClient(uri);
 		MongoDatabase db = client.getDatabase(uri.getDatabase());
 		MongoCollection<Document> rooms = db.getCollection("rooms");
@@ -133,8 +124,6 @@ public class RoomRepositoryImpl implements RoomRepository {
 	
 	@Override
 	public void updateRoom(Room room) {		
-		MongoClientURI uri = new MongoClientURI(
-				"mongodb://heroku_vkcpnxnn:2emfcpp2i8r4ulv8fd1mdpdlqu@ds255715.mlab.com:55715/heroku_vkcpnxnn");
 		MongoClient client = new MongoClient(uri);
 		MongoDatabase db = client.getDatabase(uri.getDatabase());
 		MongoCollection<Document> rooms = db.getCollection("rooms");
@@ -148,6 +137,27 @@ public class RoomRepositoryImpl implements RoomRepository {
 		//newValue = new Document("size", room.getSize());
 		//updateOperationDocument = new Document("$set", newValue);		
 		//rooms.updateOne(filter, updateOperationDocument);		
+		client.close();
+		
+	}
+	
+	@Override
+	public void reserveRoom(Reservation reservation) {
+		MongoClient client = new MongoClient(uri);
+		MongoDatabase db = client.getDatabase(uri.getDatabase());
+		System.out.println(db.getCollection("rooms"));
+		MongoCollection<Document> reservations = db.getCollection("reservations");
+		//Document doc = new Document("name", room.getName()).append("size", room.getSize());
+		//rooms.insertOne(doc);
+		client.close();
+	}
+	
+	@Override
+	public void removeReservation(String id) {		
+		MongoClient client = new MongoClient(uri);
+		MongoDatabase db = client.getDatabase(uri.getDatabase());
+		MongoCollection<Document> reservations = db.getCollection("reservations");
+		reservations.deleteOne(new Document("_id", new ObjectId(id)));
 		client.close();
 		
 	}
