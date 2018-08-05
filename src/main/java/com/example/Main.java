@@ -78,11 +78,11 @@ public class Main {
 		return "add";
 	}
 
-	@RequestMapping("/remove")
-	String remove(Map<String, Object> model) {
+	@RequestMapping("/configure")
+	String configure(Map<String, Object> model) {
 		List<Room> rooms = service.findAllRooms();
 		model.put("rooms", rooms);
-		return "remove";
+		return "configure";
 	}
 
 	@RequestMapping("/main")
@@ -118,7 +118,7 @@ public class Main {
 		model.put("notification", "Room deleted successfully!");
 		List<Room> rooms = service.findAllRooms();
 		model.put("rooms", rooms);
-		return "remove";
+		return "configure";
 	}
 	
 	@RequestMapping("/updateRoom")
@@ -128,7 +128,7 @@ public class Main {
 		model.put("notification", "Room information updated successfully!");
 		List<Room> rooms = service.findAllRooms();
 		model.put("rooms", rooms);
-		return "remove";
+		return "configure";
 	}
 
 	@Bean
