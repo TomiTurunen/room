@@ -8,7 +8,7 @@ public interface RoomService {
 
 	void addRoom(HttpServletRequest request); 
 	List<Room> findAllRooms();
-	List<Room> removeRoom(HttpServletRequest request);
+	void removeRoom(HttpServletRequest request);
 	void updateRoom(HttpServletRequest request); 
 	
 	

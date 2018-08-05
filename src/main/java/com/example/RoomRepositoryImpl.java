@@ -128,43 +128,34 @@ public class RoomRepositoryImpl implements RoomRepository {
 			System.out.println("Here I am3");
 		}
 		System.out.println("Here I am4");
-		System.out.println(roomList.get(0).getName());
 		return roomList;
-
-		/*
-		 * MongoCollection<Document> rooms = db.getCollection("rooms"); DBCollection
-		 * coll = db.getCollection("testCollection"); DBCollection col = db.get
-		 * List<Document> roomList = rooms.find List<DBObject> all =
-		 * rooms.find().toArray();
-		 * 
-		 * 
-		 * 
-		 * Document doc = new Document("name",room.getName()) .append("size",
-		 * room.getSize()); rooms.insertOne(doc); System.out.println("Here I am2");
-		 * client.close(); System.out.println("Here I am3");
-		 * 
-		 * 
-		 * Document updateQuery = new Document("song", "One Sweet Day");
-		 * songs.updateOne(updateQuery, new Document("$set", new Document("artist",
-		 * "Mariah Carey ft. Boyz II Men")));
-		 * 
-		 * /* Finally we run a query which returns all the hits that spent 10 or more
-		 * weeks at number 1.
-		 */
-
-		/*
-		 * Document findQuery = new Document("weeksAtOne", new Document("$gte",10));
-		 * Document orderBy = new Document("name", 1);
-		 * 
-		 * MongoCursor<Document> cursor =
-		 * songs.find(findQuery).sort(orderBy).iterator();
-		 * 
-		 * try { while (cursor.hasNext()) { Document doc = cursor.next();
-		 * System.out.println( "In the " + doc.get("decade") + ", " + doc.get("song") +
-		 * " by " + doc.get("artist") + " topped the charts for " +
-		 * doc.get("weeksAtOne") + " straight weeks." ); } } finally { cursor.close(); }
-		 */
-
+	}
+	
+	@Override
+	public void removeRoom(String id) {		
+		MongoClientURI uri = new MongoClientURI(
+				"mongodb://heroku_vkcpnxnn:2emfcpp2i8r4ulv8fd1mdpdlqu@ds255715.mlab.com:55715/heroku_vkcpnxnn");
+		MongoClient client = new MongoClient(uri);
+		MongoDatabase db = client.getDatabase(uri.getDatabase());
+		MongoCollection<Document> rooms = db.getCollection("rooms");
+		System.out.println(id);
+		rooms.deleteOne(new Document("_id", new ObjectId(id)));
+		client.close();
+		
+	}
+	
+	@Override
+	public void updateRoom(Room room) {		
+		MongoClientURI uri = new MongoClientURI(
+				"mongodb://heroku_vkcpnxnn:2emfcpp2i8r4ulv8fd1mdpdlqu@ds255715.mlab.com:55715/heroku_vkcpnxnn");
+		MongoClient client = new MongoClient(uri);
+		MongoDatabase db = client.getDatabase(uri.getDatabase());
+		MongoCollection<Document> rooms = db.getCollection("rooms");		
+		//TODO updating
+		
+		
+		client.close();
+		
 	}
 
 }
