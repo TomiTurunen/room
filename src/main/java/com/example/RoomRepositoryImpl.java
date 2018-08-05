@@ -9,6 +9,8 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.MongoCollection;
 
 import org.bson.Document;
+import org.bson.types.ObjectId;
+
 import java.util.Arrays;
 
 import com.google.gson.Gson;
@@ -104,10 +106,20 @@ public class RoomRepositoryImpl implements RoomRepository {
 		MongoCursor<Document> cursor = rooms.find().iterator();
 		try {
 			while (cursor.hasNext()) {
-				Room room = new Gson().fromJson(cursor.next().toJson(), Room.class);
-				System.out.println("NIMI " + room.getName());
-				roomList.add(room);
-				System.out.println("Here I am2");
+				Document doc = cursor.next();
+				//String json = cursor.next().toJson();
+				//System.out.println(json);
+				Room room = new Gson().fromJson(doc.toJson(), Room.class);
+				//ObjectId id = (ObjectId)doc.get( "_id" );
+				room.setId(doc.get( "_id" ).toString());
+				System.out.println("ID " + doc.get("id"));
+				System.out.println("name " + doc.get("name"));
+				System.out.println("ID " + doc.get("oid"));
+				System.out.println((ObjectId)doc.get( "_id" ));
+				System.out.println("ID " + room.getId());
+				System.out.println("Name " + room.getName());
+				System.out.println("Size " + room.getSize());
+				roomList.add(room);				
 			}
 		} catch (NoSuchElementException e) {
 			System.err.println(e);
