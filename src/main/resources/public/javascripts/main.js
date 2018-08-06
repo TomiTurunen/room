@@ -7,12 +7,15 @@ $(function() {
 						var roomName = selectedRoom.text();
 						var roomSize = selectedRoom.attr("data-size");
 						var reserverName = selectedRoom.attr("data-reserverName");
-						var removeReserveButtonString = "";
+						var removeReserveForm= "";
 						console.log(reserverName);
 						if(reserverName == null){
 							reserverName = "No Resereve"
 						}else{
-							removeReserveButtonString ="tähän tulee se buttoni";
+							removeReserveForm ='<form action="removeReserve" method=post>'
+												+ '	<input value ="'+ roomId + '" name ="roomId" type = "hidden">'
+												+ '	<input type = "submit" value="Remove Reserve">'
+												+ '</form>';
 						}
 						console.log(roomId);
 						
@@ -25,6 +28,7 @@ $(function() {
 												+ '	<input value ="'+ roomId + '"name ="updateRoomId" type = "hidden">'
 												+ '	<input type = "submit" value="Update room information">'
 												+ '</form>'
+												+ removeReserveForm
 												+ ' <form action= "removeRoom" method=post>'
 												+ '	<input value ='
 												+ roomId

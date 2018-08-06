@@ -200,11 +200,11 @@ public class RoomRepositoryImpl implements RoomRepository {
 	}
 	
 	@Override
-	public void removeReservation(String id) {		
+	public void removeReservation(String roomId) {		
 		MongoClient client = new MongoClient(uri);
 		MongoDatabase db = client.getDatabase(uri.getDatabase());
 		MongoCollection<Document> reservations = db.getCollection("reservations");
-		reservations.deleteOne(new Document("_id", new ObjectId(id)));
+		reservations.deleteOne(new Document("roomId", roomId));
 		client.close();
 		
 	}

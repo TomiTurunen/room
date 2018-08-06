@@ -92,7 +92,6 @@ public class Main {
 		model.put("rooms", rooms);
 		return "addReserve";
 	}
-
 	@RequestMapping("/addRoom")
 	String addRoom(HttpServletRequest request, Map<String, Object> model) throws Exception {
 		logger.info("test");
@@ -136,8 +135,19 @@ public class Main {
 		model.put("notification", "Room reserved successfully!");
 		List<Room> rooms = service.findAllRooms();
 		model.put("rooms", rooms);
+		return "addReserve";
+	}
+	@RequestMapping("/removeReserve")
+	String removeReserve(HttpServletRequest request, Map<String, Object> model) {
+		service.removeReservation(request);
+		System.out.println("ID!!:" + request.getParameter("roomId"));
+		//Toteuta osa, etta näkee selkeästi kuka varannut
+		model.put("notification", "Room reserve removed successfully!");
+		List<Room> rooms = service.findAllRooms();
+		model.put("rooms", rooms);
 		return "configure";
 	}
+	
 
 	@Bean
 	public DataSource dataSource() throws SQLException {

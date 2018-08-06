@@ -54,7 +54,7 @@ public class RoomServiceImpl implements RoomService {
 		repository.reserveRoom(reservation);
 	}
 	public void removeReservation(HttpServletRequest request) {
-		String id = request.getParameter("reserveId");
+		String id = request.getParameter("roomId");
 		repository.removeReservation(id);
 	}
 }
