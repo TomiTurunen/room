@@ -11,7 +11,7 @@
 		<select id="roomSelect">
 			<option value="">Select Room</option>
 			<option th:each="room : ${rooms}"
-				th:data-id="${room.id}" th:data-size="${room.size}" th:utext="${room.name}" />
+				th:data-id="${room.id}" th:data-size="${room.size}" th:data-reserverName="${room.reserverName}" th:utext="${room.name}"  />
 		</select>
 	</div>
 

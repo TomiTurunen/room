@@ -1,4 +1,4 @@
-package com.example;
+package room;
 
 import java.util.List;
 
@@ -44,13 +44,13 @@ public class RoomServiceImpl implements RoomService {
 		System.out.println("updateRoomId"+request.getParameter("updateRoomId"));
 		room.setName(request.getParameter("name"));
 		room.setSize(request.getParameter("size"));
-		repository.updateRoom(room);
-		System.out.println(room.getName());
+		repository.updateRoom(room);		
 	}
 	public void reserveRoom(HttpServletRequest request) {
 		Reservation reservation = new Reservation();
 		reservation.setReserverName(request.getParameter("reserverName"));
-		reservation.setRoomId(request.getParameter("roomId"));
+		reservation.setRoomId(request.getParameter("updateRoomId"));
+		reservation.setRoom(repository.findRoom(reservation.getRoomId()));
 		repository.reserveRoom(reservation);
 	}
 	public void removeReservation(HttpServletRequest request) {

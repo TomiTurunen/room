@@ -1,5 +1,5 @@
 
-package com.example;
+package room;
 
 //import com.example.repo.roomRepo;
 import com.zaxxer.hikari.HikariConfig;

@@ -1,4 +1,4 @@
-package com.example;
+package room;
 
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -17,16 +17,17 @@ import java.util.List;
 import java.util.Set;
 
 @JsonInclude(JsonInclude.Include.NON_DEFAULT)
-@Document(collection = "rooms")
-public class Room {
+@Document(collection = "reservation")
+public class Reservation {
 
 	private static final Logger logger = LoggerFactory.getLogger(Room.class);
 
     @Id
     private String id;
 
-    private String name;
-    private String size;   
+    private String reserverName;
+    private String roomId;
+    private Room room;  
     
     public String getId() {
     	return id;
@@ -36,19 +37,27 @@ public class Room {
     	this.id = id;
     }
     
-    public String getName() {
-    	return name;
+    public String getReserverName() {
+    	return reserverName;
     }
     
-    public void setName(String name) {
-    	this.name = name;
+    public void setReserverName(String reserverName) {
+    	this.reserverName = reserverName;
     }
     
-    public String getSize() {
-    	return size;
+    public String getRoomId() {
+    	return roomId;
     }
     
-    public void setSize(String size) {
-    	this.size = size;
+    public void setRoomId(String roomId) {
+    	this.roomId = roomId;
+    }
+    
+    public Room getRoom() {
+    	return room;
+    }
+    
+    public void setRoom(Room room) {
+    	this.room = room;
     }
 }

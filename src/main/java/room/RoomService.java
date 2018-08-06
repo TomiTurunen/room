@@ -1,4 +1,4 @@
-package com.example;
+package room;
 
 import java.util.List;
 

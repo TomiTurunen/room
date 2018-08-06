@@ -1,4 +1,4 @@
-package com.example;
+package room;
 
 import java.net.UnknownHostException;
 
@@ -82,24 +82,49 @@ public class RoomRepositoryImpl implements RoomRepository {
 		MongoDatabase db = client.getDatabase(uri.getDatabase());
 		MongoCollection<Document> rooms = db.getCollection("rooms");
 		List<Room> roomList = new ArrayList<>();
+		List<Reservation> reservations = findReservationsRooms();
+		System.out.println("SEEEEEEEEEEEEEEEEEEEEEEEE!!!!!!!!!!!!!00");
+		System.out.println("SEEEEEEEEEEEEEEEEEEEEEEEE!!!!!!!!!!!!!" + reservations.get(0).getReserverName());
 		// List<Document> roomDocuments = rooms.find
 		MongoCursor<Document> cursor = rooms.find().iterator();
 		try {
 			while (cursor.hasNext()) {
 				Document doc = cursor.next();
-				//String json = cursor.next().toJson();
-				//System.out.println(json);
 				Room room = new Gson().fromJson(doc.toJson(), Room.class);
 				//ObjectId id = (ObjectId)doc.get( "_id" );
 				room.setId(doc.get( "_id" ).toString());
-				System.out.println("ID " + doc.get("id"));
-				System.out.println("name " + doc.get("name"));
-				System.out.println("ID " + doc.get("oid"));
-				System.out.println((ObjectId)doc.get( "_id" ));
-				System.out.println("ID " + room.getId());
-				System.out.println("Name " + room.getName());
-				System.out.println("Size " + room.getSize());
-				roomList.add(room);				
+				roomList.add(room);		
+				Reservation roomReservation = reservations.stream().filter(reservation -> room.getId().equals(reservation.getRoomId())).findFirst().orElse(null);
+				if(roomReservation != null) {
+					System.out.println(roomReservation.getReserverName());
+					room.setReserverName(roomReservation.getReserverName());
+				}
+				System.out.println("RESERVER NAME " + room.getReserverName());
+			}
+		} catch (NoSuchElementException e) {
+			System.err.println(e);
+		} finally {
+			cursor.close();			
+		}
+		client.close();
+		return roomList;
+	}
+	
+	@Override
+	public List<Reservation> findReservationsRooms() {
+		MongoClient client = new MongoClient(uri);
+		MongoDatabase db = client.getDatabase(uri.getDatabase());
+		MongoCollection<Document> reservations = db.getCollection("reservations");
+		List<Reservation> reservationList = new ArrayList<>();
+		MongoCursor<Document> cursor = reservations.find().iterator();		
+		try {
+			System.out.println("NIIIDA!!!! ");
+			while (cursor.hasNext()) {
+				System.out.println("NADA!!!!");
+				Document doc = cursor.next();
+				Reservation reservation = new Gson().fromJson(doc.toJson(), Reservation.class);
+				reservation.setId(doc.get( "_id" ).toString());
+				reservationList.add(reservation);
 			}
 		} catch (NoSuchElementException e) {
 			System.err.println(e);
@@ -108,7 +133,34 @@ public class RoomRepositoryImpl implements RoomRepository {
 			System.out.println("Here I am3");
 		}
 		client.close();
-		return roomList;
+		return reservationList;
+	}
+	@Override
+	public Room findRoom(String id) {
+		MongoClient client = new MongoClient(uri);
+		MongoDatabase db = client.getDatabase(uri.getDatabase());
+		MongoCollection<Document> rooms = db.getCollection("rooms");
+		Bson filter = new Document("_id", new ObjectId(id));
+		Document doc = rooms.find(filter).first();
+		Room room = new Gson().fromJson(doc.toJson(), Room.class);
+		room.setId(doc.get( "_id" ).toString());
+		client.close();
+		return room;
+	}
+	
+	@Override
+	public String findReserver(String id) {
+		String reserverName = null;
+		MongoClient client = new MongoClient(uri);
+		MongoDatabase db = client.getDatabase(uri.getDatabase());
+		MongoCollection<Document> reservations = db.getCollection("reservations");
+		Bson filter = new Document("roomId", id);
+		Document doc = reservations.find(filter).first();
+		if (doc != null ) {
+			reserverName = doc.get("reserverName").toString();
+		}
+		client.close();
+		return reserverName;
 	}
 	
 	@Override
@@ -132,11 +184,6 @@ public class RoomRepositoryImpl implements RoomRepository {
 		Bson newValue = new Document("name", room.getName()).append("size", room.getSize());
 		Bson updateOperationDocument = new Document("$set", newValue);		
 		rooms.updateOne(filter, updateOperationDocument);
-		//TODO ei sitten lopullisessa versiossa odellakaan näin:
-		//Keeo mm. voi paivitella suoraan objekteja
-		//newValue = new Document("size", room.getSize());
-		//updateOperationDocument = new Document("$set", newValue);		
-		//rooms.updateOne(filter, updateOperationDocument);		
 		client.close();
 		
 	}
@@ -147,8 +194,8 @@ public class RoomRepositoryImpl implements RoomRepository {
 		MongoDatabase db = client.getDatabase(uri.getDatabase());
 		System.out.println(db.getCollection("rooms"));
 		MongoCollection<Document> reservations = db.getCollection("reservations");
-		//Document doc = new Document("name", room.getName()).append("size", room.getSize());
-		//rooms.insertOne(doc);
+		Document doc = new Document("reserverName", reservation.getReserverName()).append("roomId", reservation.getRoomId());
+		reservations.insertOne(doc);
 		client.close();
 	}
 	

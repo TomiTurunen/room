@@ -6,13 +6,22 @@ $(function() {
 						var roomId = selectedRoom.attr("data-id");
 						var roomName = selectedRoom.text();
 						var roomSize = selectedRoom.attr("data-size");
+						var reserverName = selectedRoom.attr("data-reserverName");
+						var removeReserveButtonString = "";
+						console.log(reserverName);
+						if(reserverName == null){
+							reserverName = "No Resereve"
+						}else{
+							removeReserveButtonString ="tähän tulee se buttoni";
+						}
 						console.log(roomId);
+						
 						$("#roomDetails")
 								.empty()
 								.append('<form action="updateRoom" method=post>'
 										+ 'Name: <input name="name" type="text" value='+ roomName + '>'
 												+ '<br> Size: <input name="size" type="text" value='+ roomSize + '>'
-												+ ' <br> Reservion: No reservion <br>'
+												+ ' <br> Reserve:' + reserverName +'<br>'
 												+ '	<input value ="'+ roomId + '"name ="updateRoomId" type = "hidden">'
 												+ '	<input type = "submit" value="Update room information">'
 												+ '</form>'
@@ -36,7 +45,6 @@ $(function() {
 						.append('<form action="reserveRoom" method=post>'
 								+ 'Name: '+ roomName
 										+ '<br> Size: ' + roomSize
-										+ ' <br> Reservion: No reservion <br>'
 										+ '	<input name ="reserverName" type = "text"><br>'
 										+ 'Reserver Name: '
 										+ '	<input value ="'+ roomId + '"name ="updateRoomId" type = "hidden">'
