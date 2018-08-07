@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{fragments/layout :: layout (~{::body},'addReservations')}">
+<body>
+	<h1>See reservations</h1>
+	<div class="container">
+		<table>
+			<tr>
+				<th>Room</th>
+				<th>Reserver</th>
+			</tr>
+			<th:block th:each="room : ${rooms}">
+				<tr>
+					<td th:text="${room.name}"></td>
+					<td th:text="${room.reserverName} ? ${room.reserverName} : 'Free'"></td>					
+				</tr>
+			</th:block>
+		</table>
+
+	</div>
+
+</body>
+<script>
+	
+</script>
+</html>
