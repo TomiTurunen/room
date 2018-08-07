@@ -27,7 +27,6 @@ public class Reservation {
 
     private String reserverName;
     private String roomId;
-    private Room room;  
     
     public String getId() {
     	return id;
@@ -51,15 +50,7 @@ public class Reservation {
     
     public void setRoomId(String roomId) {
     	this.roomId = roomId;
-    }
-    
-    public Room getRoom() {
-    	return room;
-    }
-    
-    public void setRoom(Room room) {
-    	this.room = room;
-    }
+    }   
     
     @Override
     public boolean equals(Object o){

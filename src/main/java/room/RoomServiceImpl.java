@@ -49,7 +49,6 @@ public class RoomServiceImpl implements RoomService {
 		Reservation reservation = new Reservation();
 		reservation.setReserverName(request.getParameter("reserverName"));
 		reservation.setRoomId(request.getParameter("updateRoomId"));
-		reservation.setRoom(repository.findRoom(reservation.getRoomId()));
 		return repository.reserveRoom(reservation);
 	}
 	public void removeReservation(HttpServletRequest request) {

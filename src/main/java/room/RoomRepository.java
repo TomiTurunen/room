@@ -18,8 +18,6 @@ public interface RoomRepository {
 
 	void removeReservation(String id);
 
-	Room findRoom(String id);
-
 	String findReserver(String id);
 
 	List<Reservation> findReservationsRooms();

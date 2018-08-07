@@ -136,7 +136,6 @@ public class RoomRepositoryImpl implements RoomRepository {
 			cursor.close();
 		}
 		client.close();
-		System.out.println("wwwQQQQQQQQQSEEEEEEEEEEEEEEEEEEEEEEEE!!!!!!!!!!!!!00");
 		return roomList;
 	}
 
@@ -164,19 +163,6 @@ public class RoomRepositoryImpl implements RoomRepository {
 		}
 		client.close();
 		return reservationList;
-	}
-
-	@Override
-	public Room findRoom(String id) {
-		MongoClient client = new MongoClient(uri);
-		MongoDatabase db = client.getDatabase(uri.getDatabase());
-		MongoCollection<Document> rooms = db.getCollection("rooms");
-		Bson filter = new Document("_id", new ObjectId(id));
-		Document doc = rooms.find(filter).first();
-		Room room = new Gson().fromJson(doc.toJson(), Room.class);
-		room.setId(doc.get("_id").toString());
-		client.close();
-		return room;
 	}
 
 	@Override

@@ -20,8 +20,6 @@ import java.util.Set;
 @Document(collection = "rooms")
 public class Room {
 
-	private static final Logger logger = LoggerFactory.getLogger(Room.class);
-
     @Id
     private String id;
 
