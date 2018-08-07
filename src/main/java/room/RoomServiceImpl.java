@@ -25,12 +25,11 @@ public class RoomServiceImpl implements RoomService {
 	}
 	
 	public List<Room> findAllRooms() {
-		List<Room> roomList = repository.findAllRooms();
-		for(Room room : roomList) {
-			System.out.println("Huoneen nimi " + room.getName());
-		}
-		System.out.println("here I am !!!");
 		return repository.findAllRooms();
+	}
+	
+	public List<Room> findFreeRooms() {
+		return repository.findFreeRooms();
 	}
 	
 	public void removeRoom(HttpServletRequest request) {

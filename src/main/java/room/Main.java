@@ -87,11 +87,19 @@ public class Main {
 
 	@RequestMapping("/addReserve")
 	String edit(Map<String, Object> model) {
-		//TODO tähän tulee löydä vapaat huoneet
-		List<Room> rooms = service.findAllRooms();
+		List<Room> rooms = service.findFreeRooms();
 		model.put("rooms", rooms);
 		return "addReserve";
 	}
+	
+	@RequestMapping("/showReservations")
+	String showReservation(Map<String, Object> model) {
+		List<Room> rooms = service.findAllRooms();
+		//todo korvaa nullit ei varaajaa tekstilla
+		model.put("rooms", rooms);
+		return "showReservations";
+	}
+	
 	@RequestMapping("/addRoom")
 	String addRoom(HttpServletRequest request, Map<String, Object> model) throws Exception {
 		logger.info("test");
@@ -133,7 +141,7 @@ public class Main {
 		System.out.println("ID!!:" + request.getParameter("roomId"));
 		//Toteuta osa, etta näkee selkeästi kuka varannut
 		model.put("notification", "Room reserved successfully!");
-		List<Room> rooms = service.findAllRooms();
+		List<Room> rooms = service.findFreeRooms();
 		model.put("rooms", rooms);
 		return "addReserve";
 	}

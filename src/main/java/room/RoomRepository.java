@@ -23,4 +23,6 @@ public interface RoomRepository {
 	String findReserver(String id);
 
 	List<Reservation> findReservationsRooms();
+	
+	List<Room> findFreeRooms(); 
 }

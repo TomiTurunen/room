@@ -111,6 +111,38 @@ public class RoomRepositoryImpl implements RoomRepository {
 	}
 	
 	@Override
+	public List<Room> findFreeRooms() {
+		System.out.println("QQQQQQQQQSEEEEEEEEEEEEEEEEEEEEEEEE!!!!!!!!!!!!!00");
+		MongoClient client = new MongoClient(uri);
+		MongoDatabase db = client.getDatabase(uri.getDatabase());
+		MongoCollection<Document> rooms = db.getCollection("rooms");
+		List<Room> roomList = new ArrayList<>();
+		List<Reservation> reservations = findReservationsRooms();
+		// List<Document> roomDocuments = rooms.find
+		MongoCursor<Document> cursor = rooms.find().iterator();
+		try {
+			while (cursor.hasNext()) {
+				System.out.println("ddd");
+				Document doc = cursor.next();
+				Room room = new Gson().fromJson(doc.toJson(), Room.class);
+				room.setId(doc.get( "_id" ).toString());
+				Reservation roomReservation = reservations.stream().filter(reservation -> room.getId().equals(reservation.getRoomId())).findFirst().orElse(null);
+				if(roomReservation != null) {
+					continue;
+				}
+				roomList.add(room);	
+			}
+		} catch (NoSuchElementException e) {
+			System.err.println(e);
+		} finally {
+			cursor.close();			
+		}
+		client.close();
+		System.out.println("wwwQQQQQQQQQSEEEEEEEEEEEEEEEEEEEEEEEE!!!!!!!!!!!!!00");
+		return roomList;
+	}
+	
+	@Override
 	public List<Reservation> findReservationsRooms() {
 		MongoClient client = new MongoClient(uri);
 		MongoDatabase db = client.getDatabase(uri.getDatabase());
