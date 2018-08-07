@@ -2,17 +2,17 @@
 <html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'add')}">
 
 <body>
-<h1>Add room</h1>
   <div class="container">
+<h1>Add room</h1>
     <p th:text="${rooms}"/>
-  </div>
+  
   <form action= "addRoom" method=post>   
-		name : <input name ="name" type = "text">
+		Name : <input name ="name" type = "text">
 		<br>
-		size : <input name= "size" type = "text">
+		Size : <input name= "size" type = "text">
 		<br>
 		<input type = "submit">
 	</form> 
-
+</div>
 </body>
 </html>
