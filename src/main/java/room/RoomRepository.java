@@ -10,11 +10,11 @@ public interface RoomRepository {
 
 	List<Room> findAllRooms();
 
-	void removeRoom(String id);
+	boolean removeRoom(String id);
 
 	void updateRoom(Room room);
 
-	void reserveRoom(Reservation reservation);
+	boolean reserveRoom(Reservation reservation);
 
 	void removeReservation(String id);
 

@@ -32,9 +32,9 @@ public class RoomServiceImpl implements RoomService {
 		return repository.findFreeRooms();
 	}
 	
-	public void removeRoom(HttpServletRequest request) {
+	public boolean removeRoom(HttpServletRequest request) {
 		String id = request.getParameter("roomId");
-		repository.removeRoom(id);
+		return repository.removeRoom(id);
 	}
 	
 	public void updateRoom(HttpServletRequest request) {
@@ -45,12 +45,12 @@ public class RoomServiceImpl implements RoomService {
 		room.setSize(request.getParameter("size"));
 		repository.updateRoom(room);		
 	}
-	public void reserveRoom(HttpServletRequest request) {
+	public boolean reserveRoom(HttpServletRequest request) {
 		Reservation reservation = new Reservation();
 		reservation.setReserverName(request.getParameter("reserverName"));
 		reservation.setRoomId(request.getParameter("updateRoomId"));
 		reservation.setRoom(repository.findRoom(reservation.getRoomId()));
-		repository.reserveRoom(reservation);
+		return repository.reserveRoom(reservation);
 	}
 	public void removeReservation(HttpServletRequest request) {
 		String id = request.getParameter("roomId");

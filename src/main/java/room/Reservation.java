@@ -60,4 +60,15 @@ public class Reservation {
     public void setRoom(Room room) {
     	this.room = room;
     }
+    
+    @Override
+    public boolean equals(Object o){
+        if(o instanceof Reservation){
+        	Reservation toCompare = (Reservation) o;
+            return this.roomId.equals(toCompare.roomId);
+        }
+        return false;
+    }
+    
+    
 }

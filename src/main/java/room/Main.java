@@ -91,15 +91,14 @@ public class Main {
 		model.put("rooms", rooms);
 		return "addReserve";
 	}
-	
+
 	@RequestMapping("/showReservations")
 	String showReservation(Map<String, Object> model) {
 		List<Room> rooms = service.findAllRooms();
-		//todo korvaa nullit ei varaajaa tekstilla
 		model.put("rooms", rooms);
 		return "showReservations";
 	}
-	
+
 	@RequestMapping("/addRoom")
 	String addRoom(HttpServletRequest request, Map<String, Object> model) throws Exception {
 		logger.info("test");
@@ -117,14 +116,18 @@ public class Main {
 
 	@RequestMapping("/removeRoom")
 	String removeRoom(HttpServletRequest request, Map<String, Object> model) throws Exception {
-		service.removeRoom(request);
-		System.out.println("ID!!:" + request.getParameter("roomId"));
-		model.put("notification", "Room deleted successfully!");
+		// Try reserve room
+		if (service.removeRoom(request)) {
+			model.put("notification", "Room deleted successfully!");
+		} else {
+			// Room is reserved while user was configure rooms view
+			model.put("notification", "Sorry, cant remove reserved room!");
+		}
 		List<Room> rooms = service.findAllRooms();
 		model.put("rooms", rooms);
 		return "configure";
 	}
-	
+
 	@RequestMapping("/updateRoom")
 	String updateRoom(HttpServletRequest request, Map<String, Object> model) throws Exception {
 		service.updateRoom(request);
@@ -134,28 +137,32 @@ public class Main {
 		model.put("rooms", rooms);
 		return "configure";
 	}
-	
+
 	@RequestMapping("/reserveRoom")
 	String reserveRoom(HttpServletRequest request, Map<String, Object> model) throws Exception {
-		service.reserveRoom(request);
-		System.out.println("ID!!:" + request.getParameter("roomId"));
-		//Toteuta osa, etta näkee selkeästi kuka varannut
-		model.put("notification", "Room reserved successfully!");
+		// Try reserve room
+		if (service.reserveRoom(request)) {
+			model.put("notification", "Room reserved successfully!");
+		} else {
+			// Room reserve failed if two person try reserve room at same time
+			model.put("notification", "Sorry, room is is already reserved!");
+		}
+
 		List<Room> rooms = service.findFreeRooms();
 		model.put("rooms", rooms);
 		return "addReserve";
 	}
+
 	@RequestMapping("/removeReserve")
 	String removeReserve(HttpServletRequest request, Map<String, Object> model) {
 		service.removeReservation(request);
 		System.out.println("ID!!:" + request.getParameter("roomId"));
-		//Toteuta osa, etta näkee selkeästi kuka varannut
+		// Toteuta osa, etta näkee selkeästi kuka varannut
 		model.put("notification", "Room reserve removed successfully!");
 		List<Room> rooms = service.findAllRooms();
 		model.put("rooms", rooms);
 		return "configure";
 	}
-	
 
 	@Bean
 	public DataSource dataSource() throws SQLException {

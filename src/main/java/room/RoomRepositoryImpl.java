@@ -55,7 +55,7 @@ import org.springframework.data.mongodb.core.query.Update;
 
 @Repository("RoomRepository")
 public class RoomRepositoryImpl implements RoomRepository {
-	
+
 	MongoClientURI uri = new MongoClientURI(
 			"mongodb://heroku_vkcpnxnn:2emfcpp2i8r4ulv8fd1mdpdlqu@ds255715.mlab.com:55715/heroku_vkcpnxnn");
 
@@ -83,19 +83,17 @@ public class RoomRepositoryImpl implements RoomRepository {
 		MongoCollection<Document> rooms = db.getCollection("rooms");
 		List<Room> roomList = new ArrayList<>();
 		List<Reservation> reservations = findReservationsRooms();
-		System.out.println("SEEEEEEEEEEEEEEEEEEEEEEEE!!!!!!!!!!!!!00");
-		System.out.println("SEEEEEEEEEEEEEEEEEEEEEEEE!!!!!!!!!!!!!" + reservations.get(0).getReserverName());
-		// List<Document> roomDocuments = rooms.find
-		MongoCursor<Document> cursor = rooms.find().iterator();
+		MongoCursor<Document> cursor = rooms.find().sort(new BasicDBObject("name", 1)).iterator();
 		try {
 			while (cursor.hasNext()) {
 				Document doc = cursor.next();
 				Room room = new Gson().fromJson(doc.toJson(), Room.class);
-				//ObjectId id = (ObjectId)doc.get( "_id" );
-				room.setId(doc.get( "_id" ).toString());
-				roomList.add(room);		
-				Reservation roomReservation = reservations.stream().filter(reservation -> room.getId().equals(reservation.getRoomId())).findFirst().orElse(null);
-				if(roomReservation != null) {
+				// ObjectId id = (ObjectId)doc.get( "_id" );
+				room.setId(doc.get("_id").toString());
+				roomList.add(room);
+				Reservation roomReservation = reservations.stream()
+						.filter(reservation -> room.getId().equals(reservation.getRoomId())).findFirst().orElse(null);
+				if (roomReservation != null) {
 					System.out.println(roomReservation.getReserverName());
 					room.setReserverName(roomReservation.getReserverName());
 				}
@@ -104,12 +102,12 @@ public class RoomRepositoryImpl implements RoomRepository {
 		} catch (NoSuchElementException e) {
 			System.err.println(e);
 		} finally {
-			cursor.close();			
+			cursor.close();
 		}
 		client.close();
 		return roomList;
 	}
-	
+
 	@Override
 	public List<Room> findFreeRooms() {
 		System.out.println("QQQQQQQQQSEEEEEEEEEEEEEEEEEEEEEEEE!!!!!!!!!!!!!00");
@@ -118,44 +116,44 @@ public class RoomRepositoryImpl implements RoomRepository {
 		MongoCollection<Document> rooms = db.getCollection("rooms");
 		List<Room> roomList = new ArrayList<>();
 		List<Reservation> reservations = findReservationsRooms();
-		// List<Document> roomDocuments = rooms.find
-		MongoCursor<Document> cursor = rooms.find().iterator();
+		MongoCursor<Document> cursor = rooms.find().sort(new BasicDBObject("name", 1)).iterator();
 		try {
 			while (cursor.hasNext()) {
 				System.out.println("ddd");
 				Document doc = cursor.next();
 				Room room = new Gson().fromJson(doc.toJson(), Room.class);
-				room.setId(doc.get( "_id" ).toString());
-				Reservation roomReservation = reservations.stream().filter(reservation -> room.getId().equals(reservation.getRoomId())).findFirst().orElse(null);
-				if(roomReservation != null) {
+				room.setId(doc.get("_id").toString());
+				Reservation roomReservation = reservations.stream()
+						.filter(reservation -> room.getId().equals(reservation.getRoomId())).findFirst().orElse(null);
+				if (roomReservation != null) {
 					continue;
 				}
-				roomList.add(room);	
+				roomList.add(room);
 			}
 		} catch (NoSuchElementException e) {
 			System.err.println(e);
 		} finally {
-			cursor.close();			
+			cursor.close();
 		}
 		client.close();
 		System.out.println("wwwQQQQQQQQQSEEEEEEEEEEEEEEEEEEEEEEEE!!!!!!!!!!!!!00");
 		return roomList;
 	}
-	
+
 	@Override
 	public List<Reservation> findReservationsRooms() {
 		MongoClient client = new MongoClient(uri);
 		MongoDatabase db = client.getDatabase(uri.getDatabase());
 		MongoCollection<Document> reservations = db.getCollection("reservations");
 		List<Reservation> reservationList = new ArrayList<>();
-		MongoCursor<Document> cursor = reservations.find().iterator();		
+		MongoCursor<Document> cursor = reservations.find().iterator();
 		try {
 			System.out.println("NIIIDA!!!! ");
 			while (cursor.hasNext()) {
 				System.out.println("NADA!!!!");
 				Document doc = cursor.next();
 				Reservation reservation = new Gson().fromJson(doc.toJson(), Reservation.class);
-				reservation.setId(doc.get( "_id" ).toString());
+				reservation.setId(doc.get("_id").toString());
 				reservationList.add(reservation);
 			}
 		} catch (NoSuchElementException e) {
@@ -167,6 +165,7 @@ public class RoomRepositoryImpl implements RoomRepository {
 		client.close();
 		return reservationList;
 	}
+
 	@Override
 	public Room findRoom(String id) {
 		MongoClient client = new MongoClient(uri);
@@ -175,11 +174,11 @@ public class RoomRepositoryImpl implements RoomRepository {
 		Bson filter = new Document("_id", new ObjectId(id));
 		Document doc = rooms.find(filter).first();
 		Room room = new Gson().fromJson(doc.toJson(), Room.class);
-		room.setId(doc.get( "_id" ).toString());
+		room.setId(doc.get("_id").toString());
 		client.close();
 		return room;
 	}
-	
+
 	@Override
 	public String findReserver(String id) {
 		String reserverName = null;
@@ -188,57 +187,70 @@ public class RoomRepositoryImpl implements RoomRepository {
 		MongoCollection<Document> reservations = db.getCollection("reservations");
 		Bson filter = new Document("roomId", id);
 		Document doc = reservations.find(filter).first();
-		if (doc != null ) {
+		if (doc != null) {
 			reserverName = doc.get("reserverName").toString();
 		}
 		client.close();
 		return reserverName;
 	}
-	
+
 	@Override
-	public void removeRoom(String id) {		
+	public boolean removeRoom(String id) {
+		List<Reservation> reservationList = findReservationsRooms();
+		for (Reservation reservation : reservationList) {
+			if (reservation.getRoomId().equals(id)) {
+				return false;
+			}
+		}
 		MongoClient client = new MongoClient(uri);
 		MongoDatabase db = client.getDatabase(uri.getDatabase());
 		MongoCollection<Document> rooms = db.getCollection("rooms");
-		System.out.println(id);
 		rooms.deleteOne(new Document("_id", new ObjectId(id)));
 		client.close();
-		
+		return true;
+
 	}
-	
+
 	@Override
-	public void updateRoom(Room room) {		
+	public void updateRoom(Room room) {
 		MongoClient client = new MongoClient(uri);
 		MongoDatabase db = client.getDatabase(uri.getDatabase());
 		MongoCollection<Document> rooms = db.getCollection("rooms");
-		//Document doc = new Document("name", room.getName()).append("size", room.getSize());
+		// Document doc = new Document("name", room.getName()).append("size",
+		// room.getSize());
 		Bson filter = new Document("_id", new ObjectId(room.getId()));
 		Bson newValue = new Document("name", room.getName()).append("size", room.getSize());
-		Bson updateOperationDocument = new Document("$set", newValue);		
+		Bson updateOperationDocument = new Document("$set", newValue);
 		rooms.updateOne(filter, updateOperationDocument);
 		client.close();
-		
+
 	}
-	
+
 	@Override
-	public void reserveRoom(Reservation reservation) {
+	public boolean reserveRoom(Reservation reservation) {
+		List<Reservation> reservationList = findReservationsRooms();
+		if (reservationList.contains(reservation)) {
+			return false;
+		}
 		MongoClient client = new MongoClient(uri);
 		MongoDatabase db = client.getDatabase(uri.getDatabase());
 		System.out.println(db.getCollection("rooms"));
 		MongoCollection<Document> reservations = db.getCollection("reservations");
-		Document doc = new Document("reserverName", reservation.getReserverName()).append("roomId", reservation.getRoomId());
+		Document doc = new Document("reserverName", reservation.getReserverName()).append("roomId",
+				reservation.getRoomId());
 		reservations.insertOne(doc);
 		client.close();
+		return true;
 	}
-	
+
 	@Override
-	public void removeReservation(String roomId) {		
+	public void removeReservation(String roomId) {
 		MongoClient client = new MongoClient(uri);
 		MongoDatabase db = client.getDatabase(uri.getDatabase());
 		MongoCollection<Document> reservations = db.getCollection("reservations");
 		reservations.deleteOne(new Document("roomId", roomId));
 		client.close();
-		
+
 	}
 
 }
