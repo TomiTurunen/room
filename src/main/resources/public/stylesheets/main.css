@@ -43,25 +43,35 @@
 }
 
 table {
-    border-collapse: collapse;
+	border-collapse: collapse;
 }
 
 table.showBorders, table.showBorders th, table.showBorders td {
-    border: 1px solid black;
+	border: 1px solid black;
 }
 
-th, td{
+th, td {
 	padding: 0 10px 0 10px;
 }
 
-td.free{
-	color: green;	
+td.free {
+	color: green;
 }
 
-td.reserved{
-	color: red;	
+td.reserved {
+	color: red;
 }
 
-input.margin{
+input.margin {
 	margin-left: 10px;
+}
+
+.navbar-inverse {
+	background-color: #800000 !important;
+	border-color: #600000 !important;
+}
+
+.navbar-inverse {
+	background-color: #222;
+	border-color: #080808;
 }

@@ -6,13 +6,18 @@ import javax.servlet.http.HttpServletRequest;
 
 public interface RoomService {
 
-	void addRoom(HttpServletRequest request); 
+	void addRoom(HttpServletRequest request);
+
 	List<Room> findAllRooms();
+
 	List<Room> findFreeRooms();
+
 	boolean removeRoom(HttpServletRequest request);
-	void updateRoom(HttpServletRequest request); 
+
+	void updateRoom(HttpServletRequest request);
+
 	boolean reserveRoom(HttpServletRequest request);
-	void removeReservation(HttpServletRequest request); 
-	
-	
+
+	void removeReservation(HttpServletRequest request);
+
 }

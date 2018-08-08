@@ -15,7 +15,6 @@ $(function() {
 									.attr("data-reserverName");
 							var removeReserveForm = "";
 							var removeRoomForm = "";
-							console.log(reserverName);
 							if (reserverName == null) {
 								reserverName = "No Resereve"
 								removeRoomForm = ' <form action= "removeRoom" method=post>'

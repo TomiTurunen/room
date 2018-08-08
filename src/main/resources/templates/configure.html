@@ -2,23 +2,18 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	th:replace="~{fragments/layout :: layout (~{::body},'configure')}">
 <body>
-	  <div class="container">
-	<h1>Configure rooms</h1>
+	<div class="container">
+		<h1>Configure rooms</h1>
 
-    	<p th:text="${notification}"/>
-  		
-	Room:
-		<select id="roomSelect">
+		<p th:text="${notification}" />
+
+		Room: <select id="roomSelect">
 			<option value="">Select Room</option>
-			<option th:each="room : ${rooms}"
-				th:data-id="${room.id}" th:data-size="${room.size}" th:data-reserverName="${room.reserverName}" th:utext="${room.name}"  />
-		</select>
-
-	<span id ="roomDetails"></span>
+			<option th:each="room : ${rooms}" th:data-id="${room.id}"
+				th:data-size="${room.size}"
+				th:data-reserverName="${room.reserverName}" th:utext="${room.name}" />
+		</select> <span id="roomDetails"></span>
 	</div>
 
 </body>
-	<script>	
-
-</script>
 </html>

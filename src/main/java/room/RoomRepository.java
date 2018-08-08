@@ -2,8 +2,6 @@ package room;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 public interface RoomRepository {
 
 	void addRoom(Room room);
@@ -21,6 +19,6 @@ public interface RoomRepository {
 	String findReserver(String id);
 
 	List<Reservation> findReservationsRooms();
-	
-	List<Room> findFreeRooms(); 
+
+	List<Room> findFreeRooms();
 }
