@@ -40,9 +40,6 @@ public class Main {
 	@Value("${spring.datasource.url}")
 	private String dbUrl;
 
-	@Autowired
-	private DataSource dataSource;
-
 	public static void main(String[] args) throws Exception {
 		SpringApplication.run(Main.class, args);
 	}
@@ -135,23 +132,10 @@ public class Main {
 	@RequestMapping("/removeReserve")
 	String removeReserve(HttpServletRequest request, Map<String, Object> model) {
 		service.removeReservation(request);
-		System.out.println("ID!!:" + request.getParameter("roomId"));
-		// Toteuta osa, etta näkee selkeästi kuka varannut
 		model.put("notification", "Room reserve removed successfully!");
 		List<Room> rooms = service.findAllRooms();
 		model.put("rooms", rooms);
 		return "configure";
-	}
-
-	@Bean
-	public DataSource dataSource() throws SQLException {
-		if (dbUrl == null || dbUrl.isEmpty()) {
-			return new HikariDataSource();
-		} else {
-			HikariConfig config = new HikariConfig();
-			config.setJdbcUrl(dbUrl);
-			return new HikariDataSource(config);
-		}
 	}
 
 }

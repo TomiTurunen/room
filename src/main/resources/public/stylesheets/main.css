@@ -46,10 +46,22 @@ table {
     border-collapse: collapse;
 }
 
-table, th, td {
+table.showBorders, table.showBorders th, table.showBorders td {
     border: 1px solid black;
 }
 
 th, td{
 	padding: 0 10px 0 10px;
+}
+
+td.free{
+	color: green;	
+}
+
+td.reserved{
+	color: red;	
+}
+
+input.margin{
+	margin-left: 10px;
 }

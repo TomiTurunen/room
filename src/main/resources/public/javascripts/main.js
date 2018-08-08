@@ -22,14 +22,14 @@ $(function() {
 										+ '	<input value ='
 										+ roomId
 										+ ' name ="roomId" type = "hidden">'
-										+ '	<input type = "submit" value="Remove room">'
+										+ '	<input class= "margin" type = "submit" value = "Remove room">'
 										+ '		</form> '
 							} else {
-								removeReserveForm = '<form action="removeReserve" method=post>'
+								removeReserveForm = '<form action= "removeReserve" method=post>'
 										+ '	<input value ="'
 										+ roomId
-										+ '" name ="roomId" type = "hidden">'
-										+ '	<input type = "submit" value="Remove Reserve">'
+										+ '" name = "roomId" type = "hidden">'
+										+ '	<input class= "margin" type = "submit" value="Remove Reserve">'
 										+ '</form>';
 							}
 
@@ -37,20 +37,20 @@ $(function() {
 									.empty()
 									.append(
 											'<form action="updateRoom" method=post>'
-													+ 'Name: <input name="name" type="text" value='
+													+ '<table><tr><td>Name: </td><td><input name="name" type="text" value='
 													+ roomName
-													+ '>'
-													+ '<br> Size: <input name="size" type="text" value='
+													+ '></td></tr><tr><td>'
+													+ 'Size: </td><td><input name="size" type="text" value='
 													+ roomSize
-													+ '>'
-													+ ' <br> Reserve:'
+													+ '></td></tr><tr><td>'
+													+ 'Reserve:</td><td>'
 													+ reserverName
-													+ '<br>'
+													+ '</td></tr><tr><td>'
 													+ '	<input value ="'
 													+ roomId
 													+ '"name ="updateRoomId" type = "hidden">'
-													+ '	<input type = "submit" value="Update room information">'
-													+ '</form>'
+													+ '	<input type = "submit" value="Update room information"></td></tr></table>'
+													+ '</form><br>'
 													+ removeReserveForm
 													+ removeRoomForm)
 						}
@@ -70,17 +70,17 @@ $(function() {
 							$("#roomDetails")
 									.empty()
 									.append(
-											'<form action="reserveRoom" method=post>'
-													+ 'Name: '
+											'<br><br><form action="reserveRoom" method=post>'
+													+ '<table><tr><td>Name: </td><td>'
 													+ roomName
-													+ '<br> Size: '
+													+ '</td></tr><tr><td> Size: </td><td>'
 													+ roomSize
-													+ '	<input name ="reserverName" type = "text"><br>'
-													+ 'Reserver Name: '
+													+ '	</td></tr><tr><td>Reserver Name: </td>'
+													+ '<td><input name ="reserverName" type = "text">'
 													+ '	<input value ="'
 													+ roomId
-													+ '"name ="updateRoomId" type = "hidden">'
-													+ '	<input type = "submit" value="Reserve Room">'
+													+ '"name ="updateRoomId" type = "hidden"></td></tr>'
+													+ '	<tr><td><input type = "submit" value="Reserve Room"></td></tr></table>'
 													+ '</form> ')
 						}
 					});

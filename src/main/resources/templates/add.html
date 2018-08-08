@@ -7,10 +7,13 @@
     <p th:text="${rooms}"/>
   
   <form action= "addRoom" method=post>   
-		Name : <input name ="name" type = "text">
-		<br>
-		Size : <input name= "size" type = "text">
-		<br>
+  <table>
+  <tr>
+		<td>Name: </td><td><input name ="name" type = "text"></td>
+		</tr><tr>
+		<td>Size: </td><td><input name= "size" type = "text"></td>
+		</tr>
+			</table>
 		<input type = "submit">
 	</form> 
 </div>

@@ -4,7 +4,7 @@
 <body>
 	<div class="container">
 	<h1>See reservations</h1>
-		<table>
+		<table class = "showBorders">
 			<tr>
 				<th>Room</th>
 				<th>Reserver</th>
@@ -12,7 +12,7 @@
 			<th:block th:each="room : ${rooms}">
 				<tr>
 					<td th:text="${room.name}"></td>
-					<td th:text="${room.reserverName} ? ${room.reserverName} : 'Free'"></td>					
+					<td th:classappend="${room.reserverName} ? reserved : free" th:text="${room.reserverName} ? ${room.reserverName} : 'Free'"></td>					
 				</tr>
 			</th:block>
 		</table>
