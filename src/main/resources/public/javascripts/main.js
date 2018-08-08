@@ -10,7 +10,7 @@ $(function() {
 						} else {
 
 							var roomName = selectedRoom.text();
-							var roomSize = selectedRoom.attr("data-size");
+							var roomSize = selectedRoom.attr("data-size") ? selectedRoom.attr("data-size") : "";
 							var reserverName = selectedRoom
 									.attr("data-reserverName");
 							var removeReserveForm = "";
@@ -65,7 +65,7 @@ $(function() {
 							$("#roomDetails").empty();
 						} else {
 							var roomName = selectedRoom.text();
-							var roomSize = selectedRoom.attr("data-size");
+							var roomSize = selectedRoom.attr("data-size") ? selectedRoom.attr("data-size") : "";
 							$("#roomDetails")
 									.empty()
 									.append(
