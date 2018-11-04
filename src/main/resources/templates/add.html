@@ -2,8 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'add')}">
 
 <body>
-  <div class="container">
-<h1>Add room</h1>
+  <h1>Add room</h1>
+  <div class="container content">
     <p th:text="${rooms}"/>
   
   <form action= "addRoom" method=post>   

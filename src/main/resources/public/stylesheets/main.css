@@ -38,12 +38,20 @@
 	max-width: 100%;
 }
 
-.container {
-	margin-left: 100px;
+.container.content {
+	margin: auto;
+    width: 50%;
+    border: 3px solid lightgrey;
+    padding: 20px;
+    text-align: center;
+    min-height: 300px;
+    box-shadow: 5px 5px 3px lightgrey;
 }
 
 table {
 	border-collapse: collapse;
+	margin-left:auto; 
+    margin-right:auto;
 }
 
 table.showBorders, table.showBorders th, table.showBorders td {
@@ -53,7 +61,9 @@ table.showBorders, table.showBorders th, table.showBorders td {
 th, td {
 	padding: 0 10px 0 10px;
 }
-
+td {
+	padding: 5px;
+}
 td.free {
 	color: green;
 }
@@ -62,16 +72,23 @@ td.reserved {
 	color: red;
 }
 
+
 input.margin {
 	margin-left: 10px;
 }
 
 .navbar-inverse {
-	background-color: #800000 !important;
-	border-color: #600000 !important;
+	background-color: #00CED1 !important;
+	border-color: #20B2AA !important;
 }
 
-.navbar-inverse {
-	background-color: #222;
-	border-color: #080808;
+.navbar-inverse .navbar-nav>li>a {
+	color: #F0F0F0;	
 }
+
+h1 {
+	text-align: center;
+}
+
+.nav-tabs>li.active>a
+	color: #F0F0F0;	
